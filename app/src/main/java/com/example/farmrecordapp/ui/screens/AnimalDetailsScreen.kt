@@ -1,5 +1,6 @@
 package com.example.farmrecordapp.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,8 +17,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Healing
+import androidx.compose.material.icons.filled.MedicalServices
+import androidx.compose.material.icons.filled.Vaccines
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,7 +53,7 @@ fun AnimalDetailsScreen(
     onTabSelected: (BottomTab) -> Unit
 ) {
     var selectedTab by remember { mutableStateOf("Health Records") }
-    val darkGreen = Color(0xFF006B45)
+    val darkGreen = Color(0xFF005C3B)
 
     val healthRecords = FarmRepository.healthRecords.filter { it.animalName.contains(animal.type, ignoreCase = true) || it.animalId == animal.id }
 
@@ -60,7 +67,7 @@ fun AnimalDetailsScreen(
             title = "Animal Details",
             showBack = true,
             onBackClick = onBack,
-            rightActionIcon = "✏️"
+            rightActionIcon = "edit"
         )
 
         Column(
@@ -73,6 +80,7 @@ fun AnimalDetailsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
+                border = BorderStroke(1.dp, Color(0xFFE2E8E4)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
             ) {
                 Row(
@@ -97,14 +105,14 @@ fun AnimalDetailsScreen(
                             text = animal.title,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF222222)
+                            color = Color(0xFF1B2B22)
                         )
 
                         Spacer(modifier = Modifier.height(4.dp))
 
                         Box(
                             modifier = Modifier
-                                .background(Color(0xFFFFE8E8), RoundedCornerShape(6.dp))
+                                .background(Color(0xFFFFEAEA), RoundedCornerShape(6.dp))
                                 .padding(horizontal = 8.dp, vertical = 2.dp)
                         ) {
                             Text(text = animal.type, fontSize = 11.sp, color = Color(0xFFD32F2F), fontWeight = FontWeight.Bold)
@@ -112,9 +120,9 @@ fun AnimalDetailsScreen(
 
                         Spacer(modifier = Modifier.height(6.dp))
 
-                        Text(text = "Age: ${animal.age}", fontSize = 12.sp, color = Color(0xFF555555))
-                        Text(text = "Gender: ${animal.gender}", fontSize = 12.sp, color = Color(0xFF555555))
-                        Text(text = "Breed: ${animal.breed}", fontSize = 12.sp, color = Color(0xFF555555))
+                        Text(text = "Age: ${animal.age}", fontSize = 12.sp, color = Color(0xFF55685D))
+                        Text(text = "Gender: ${animal.gender}", fontSize = 12.sp, color = Color(0xFF55685D))
+                        Text(text = "Breed: ${animal.breed}", fontSize = 12.sp, color = Color(0xFF55685D))
                     }
                 }
             }
@@ -144,7 +152,7 @@ fun AnimalDetailsScreen(
                         Text(
                             text = tab,
                             fontSize = 12.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
                             color = if (isSelected) darkGreen else Color(0xFF666666)
                         )
                     }
@@ -157,7 +165,7 @@ fun AnimalDetailsScreen(
                 text = "Recent $selectedTab",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF333333)
+                color = Color(0xFF1B2B22)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -171,7 +179,8 @@ fun AnimalDetailsScreen(
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp),
                             shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White)
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            border = BorderStroke(1.dp, Color(0xFFE2E8E4))
                         ) {
                             Row(
                                 modifier = Modifier
@@ -179,20 +188,37 @@ fun AnimalDetailsScreen(
                                     .padding(12.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = when (record.type) {
-                                        "Deworming" -> "🩺"
-                                        "Vaccination" -> "💉"
-                                        else -> "💊"
-                                    },
-                                    fontSize = 22.sp
-                                )
-                                Spacer(modifier = Modifier.width(12.dp))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(text = record.medication, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                                    Text(text = record.date, fontSize = 11.sp, color = Color(0xFF777777))
+                                val recordIcon = when (record.type) {
+                                    "Deworming" -> Icons.Default.MedicalServices
+                                    "Vaccination" -> Icons.Default.Vaccines
+                                    else -> Icons.Default.Healing
                                 }
-                                Text(text = "›", fontSize = 20.sp, color = Color(0xFF888888))
+
+                                Box(
+                                    modifier = Modifier
+                                        .background(Color(0xFFEBF5EE), RoundedCornerShape(10.dp))
+                                        .padding(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = recordIcon,
+                                        contentDescription = record.type,
+                                        tint = darkGreen,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(12.dp))
+
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(text = record.medication, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1B2B22))
+                                    Text(text = record.date, fontSize = 11.sp, color = Color(0xFF667766))
+                                }
+
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                    contentDescription = "Details",
+                                    tint = Color(0xFF889988)
+                                )
                             }
                         }
                     }
@@ -201,7 +227,7 @@ fun AnimalDetailsScreen(
                         Text(
                             text = "No additional records found for ${animal.name}.",
                             fontSize = 13.sp,
-                            color = Color(0xFF888888),
+                            color = Color(0xFF778877),
                             modifier = Modifier.padding(top = 16.dp)
                         )
                     }

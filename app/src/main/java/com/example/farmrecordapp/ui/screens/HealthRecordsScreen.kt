@@ -1,5 +1,6 @@
 package com.example.farmrecordapp.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,13 +11,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Healing
+import androidx.compose.material.icons.filled.MedicalServices
+import androidx.compose.material.icons.filled.Vaccines
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,7 +49,7 @@ fun HealthRecordsScreen(
 ) {
     var selectedFilter by remember { mutableStateOf("Vaccination") }
     val filters = listOf("Vaccination", "Deworming", "Treatment")
-    val darkGreen = Color(0xFF006B45)
+    val darkGreen = Color(0xFF005C3B)
 
     val records = FarmRepository.healthRecords.filter {
         it.type.equals(selectedFilter, ignoreCase = true)
@@ -58,7 +65,7 @@ fun HealthRecordsScreen(
             title = "Health Records",
             showBack = true,
             onBackClick = onBack,
-            rightActionIcon = "+",
+            rightActionIcon = "add",
             onRightActionClick = onAddHealthRecordClick
         )
 
@@ -84,8 +91,8 @@ fun HealthRecordsScreen(
                         Text(
                             text = filter,
                             fontSize = 13.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            color = if (isSelected) Color.White else Color(0xFF333333)
+                            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
+                            color = if (isSelected) Color.White else Color(0xFF2C3E35)
                         )
                     }
                 }
@@ -102,6 +109,7 @@ fun HealthRecordsScreen(
                             .padding(vertical = 5.dp),
                         shape = RoundedCornerShape(14.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
+                        border = BorderStroke(1.dp, Color(0xFFE2E8E4)),
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                     ) {
                         Row(
@@ -110,18 +118,22 @@ fun HealthRecordsScreen(
                                 .padding(14.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            val recordIcon = when (record.type) {
+                                "Vaccination" -> Icons.Default.Vaccines
+                                "Deworming" -> Icons.Default.MedicalServices
+                                else -> Icons.Default.Healing
+                            }
+
                             Box(
                                 modifier = Modifier
-                                    .background(Color(0xFFE8F1FF), RoundedCornerShape(10.dp))
+                                    .background(Color(0xFFEBF5EE), RoundedCornerShape(10.dp))
                                     .padding(10.dp)
                             ) {
-                                Text(
-                                    text = when (record.type) {
-                                        "Vaccination" -> "💉"
-                                        "Deworming" -> "🩺"
-                                        else -> "💊"
-                                    },
-                                    fontSize = 24.sp
+                                Icon(
+                                    imageVector = recordIcon,
+                                    contentDescription = record.type,
+                                    tint = darkGreen,
+                                    modifier = Modifier.size(24.dp)
                                 )
                             }
 
@@ -132,22 +144,28 @@ fun HealthRecordsScreen(
                                     text = record.medication,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF222222)
+                                    color = Color(0xFF1B2B22)
                                 )
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(
                                     text = record.date,
                                     fontSize = 12.sp,
-                                    color = Color(0xFF777777)
+                                    color = Color(0xFF667766)
                                 )
                             }
 
-                            Text(
-                                text = record.animalName,
-                                fontSize = 12.sp,
-                                color = Color(0xFF555555),
-                                fontWeight = FontWeight.Medium
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .background(Color(0xFFF0F4F1), RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = record.animalName,
+                                    fontSize = 12.sp,
+                                    color = Color(0xFF2C3E35),
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
                         }
                     }
                 }

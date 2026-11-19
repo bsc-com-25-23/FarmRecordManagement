@@ -93,6 +93,7 @@ fun FarmRecordApp() {
                 onNavigateToExpenses = { navigateTo(Screen.Expenses) },
                 onNavigateToSales = { navigateTo(Screen.Sales) },
                 onNavigateToReports = { navigateTo(Screen.Reports) },
+                onNavigateToSettings = { navigateTo(Screen.Settings) },
                 onTabSelected = handleTabSelected
             )
         }

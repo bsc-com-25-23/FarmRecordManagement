@@ -1,5 +1,6 @@
 package com.example.farmrecordapp.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,12 +11,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,7 +49,7 @@ fun ReportsScreen(
     onTabSelected: (BottomTab) -> Unit
 ) {
     var selectedPeriod by remember { mutableStateOf("This Month") }
-    val darkGreen = Color(0xFF006B45)
+    val darkGreen = Color(0xFF005C3B)
 
     Column(
         modifier = Modifier
@@ -96,20 +105,22 @@ fun ReportsScreen(
             Row(modifier = Modifier.fillMaxWidth()) {
                 MetricCard(
                     modifier = Modifier.weight(1f),
-                    icon = "🧭",
+                    icon = Icons.Default.Pets,
                     title = "Total Animals",
                     value = "${FarmRepository.animals.size}",
-                    bgColor = Color(0xFFEBF3FF)
+                    bgColor = Color(0xFFEBF3FF),
+                    iconTint = Color(0xFF2563EB)
                 )
 
                 Spacer(modifier = Modifier.width(12.dp))
 
                 MetricCard(
                     modifier = Modifier.weight(1f),
-                    icon = "💰",
+                    icon = Icons.Default.AttachMoney,
                     title = "Total Sales",
                     value = "MK 92,000",
-                    bgColor = Color(0xFFEBF9F3)
+                    bgColor = Color(0xFFEBF9F3),
+                    iconTint = Color(0xFF059669)
                 )
             }
 
@@ -118,20 +129,22 @@ fun ReportsScreen(
             Row(modifier = Modifier.fillMaxWidth()) {
                 MetricCard(
                     modifier = Modifier.weight(1f),
-                    icon = "🪙",
+                    icon = Icons.AutoMirrored.Filled.ReceiptLong,
                     title = "Total Expenses",
                     value = "MK 45,000",
-                    bgColor = Color(0xFFFFEAEA)
+                    bgColor = Color(0xFFFFEAEA),
+                    iconTint = Color(0xFFDC2626)
                 )
 
                 Spacer(modifier = Modifier.width(12.dp))
 
                 MetricCard(
                     modifier = Modifier.weight(1f),
-                    icon = "📈",
+                    icon = Icons.AutoMirrored.Filled.TrendingUp,
                     title = "Net Profit",
                     value = "MK 47,000",
-                    bgColor = Color(0xFFE8F5E9)
+                    bgColor = Color(0xFFE8F5E9),
+                    iconTint = darkGreen
                 )
             }
 
@@ -142,6 +155,7 @@ fun ReportsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
+                border = BorderStroke(1.dp, Color(0xFFE2E8E4)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -164,15 +178,17 @@ fun ReportsScreen(
 @Composable
 fun MetricCard(
     modifier: Modifier = Modifier,
-    icon: String,
+    icon: ImageVector,
     title: String,
     value: String,
-    bgColor: Color
+    bgColor: Color,
+    iconTint: Color
 ) {
     Card(
         modifier = modifier.height(110.dp),
         shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = bgColor)
+        colors = CardDefaults.cardColors(containerColor = bgColor),
+        border = BorderStroke(1.dp, Color(0xFFE2E8E4))
     ) {
         Column(
             modifier = Modifier
@@ -180,12 +196,17 @@ fun MetricCard(
                 .padding(12.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = icon, fontSize = 22.sp)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    tint = iconTint,
+                    modifier = Modifier.size(22.dp)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = title, fontSize = 12.sp, color = Color(0xFF555555))
+                Text(text = title, fontSize = 12.sp, color = Color(0xFF55685D), fontWeight = FontWeight.Medium)
             }
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF222222))
+            Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1B2B22))
         }
     }
 }

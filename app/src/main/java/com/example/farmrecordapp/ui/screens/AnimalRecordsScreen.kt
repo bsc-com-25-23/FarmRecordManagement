@@ -1,5 +1,6 @@
 package com.example.farmrecordapp.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,8 +18,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -64,7 +69,7 @@ fun AnimalRecordsScreen(
     var selectedCategory by remember { mutableStateOf("All") }
     val categories = listOf("All", "Pigs", "Goats", "Cows", "Chickens")
 
-    val darkGreen = Color(0xFF006B45)
+    val darkGreen = Color(0xFF005C3B)
 
     val filteredAnimals = FarmRepository.animals.filter { animal ->
         val matchesCategory = when (selectedCategory) {
@@ -104,11 +109,18 @@ fun AnimalRecordsScreen(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("🔍 Search animals...", color = Color(0xFF888888), fontSize = 14.sp) },
+                placeholder = { Text("Search animals by name or type...", color = Color(0xFF999999), fontSize = 14.sp) },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search Icon",
+                        tint = Color(0xFF777777)
+                    )
+                },
                 shape = RoundedCornerShape(24.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = darkGreen,
-                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                    unfocusedBorderColor = Color(0xFFD0D7D1),
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White
                 ),
@@ -134,8 +146,8 @@ fun AnimalRecordsScreen(
                         Text(
                             text = category,
                             fontSize = 13.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            color = if (isSelected) Color.White else Color(0xFF333333)
+                            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
+                            color = if (isSelected) Color.White else Color(0xFF2C3E35)
                         )
                     }
                 }
@@ -176,6 +188,7 @@ fun AnimalListItem(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
+        border = BorderStroke(1.dp, Color(0xFFE2E8E4)),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -201,20 +214,20 @@ fun AnimalListItem(
                     text = animal.title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF222222)
+                    color = Color(0xFF1B2B22)
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "${animal.type} • ${animal.age}",
                     fontSize = 12.sp,
-                    color = Color(0xFF666666)
+                    color = Color(0xFF55685D)
                 )
             }
 
-            Text(
-                text = "›",
-                fontSize = 24.sp,
-                color = Color(0xFF888888)
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Details",
+                tint = Color(0xFF889988)
             )
         }
     }

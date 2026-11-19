@@ -7,9 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -29,13 +34,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val PrimaryGreen = Color(0xFF006B45)
+val PrimaryGreen = Color(0xFF005C3B)
 val LightFieldBg = Color.White
-val BorderColor = Color(0xFFCCCCCC)
-val LabelColor = Color(0xFF333333)
+val BorderColor = Color(0xFFD0D7D1)
+val LabelColor = Color(0xFF1B2B22)
 
 /**
- * Standard styled input field used across farm record forms.
+ * Standard humanized styled input field used across farm record forms.
  */
 @Composable
 fun FarmInputField(
@@ -50,14 +55,14 @@ fun FarmInputField(
         Text(
             text = label,
             fontSize = 13.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = LabelColor
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            placeholder = { Text(placeholder, color = Color(0xFFAAAAAA)) },
+            placeholder = { Text(placeholder, color = Color(0xFF999999)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = singleLine,
             shape = RoundedCornerShape(10.dp),
@@ -72,7 +77,7 @@ fun FarmInputField(
 }
 
 /**
- * Standard styled dropdown menu picker used across farm record forms.
+ * Standard humanized styled dropdown menu picker used across farm record forms.
  */
 @Composable
 fun FarmDropdownSelect(
@@ -88,7 +93,7 @@ fun FarmDropdownSelect(
         Text(
             text = label,
             fontSize = 13.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = LabelColor
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -101,10 +106,10 @@ fun FarmDropdownSelect(
                     .fillMaxWidth()
                     .clickable { expanded = true },
                 trailingIcon = {
-                    Text(
-                        text = "▼",
-                        fontSize = 12.sp,
-                        color = Color(0xFF666666),
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Select option",
+                        tint = Color(0xFF555555),
                         modifier = Modifier.clickable { expanded = true }
                     )
                 },
@@ -163,13 +168,18 @@ fun DashedPhotoUploadBox(
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "📷", fontSize = 28.sp)
-            Spacer(modifier = Modifier.height(4.dp))
+            Icon(
+                imageVector = Icons.Default.AddAPhoto,
+                contentDescription = "Add Photo",
+                tint = PrimaryGreen,
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = "Add Photo",
-                fontSize = 12.sp,
+                fontSize = 13.sp,
                 color = PrimaryGreen,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.SemiBold
             )
         }
     }

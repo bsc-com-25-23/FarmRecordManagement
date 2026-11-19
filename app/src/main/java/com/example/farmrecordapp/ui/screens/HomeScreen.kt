@@ -1,5 +1,6 @@
 package com.example.farmrecordapp.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ fun HomeScreen(
     onNavigateToExpenses: () -> Unit,
     onNavigateToSales: () -> Unit,
     onNavigateToReports: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     onTabSelected: (BottomTab) -> Unit
 ) {
     Column(
@@ -52,7 +54,9 @@ fun HomeScreen(
         FarmTopBar(
             title = "Farm Record Management",
             showMenu = true,
-            rightActionIcon = "👤"
+            onMenuClick = onNavigateToSettings,
+            rightActionIcon = "person",
+            onRightActionClick = onNavigateToSettings
         )
 
         // MAIN CONTENT
@@ -68,7 +72,9 @@ fun HomeScreen(
                 shape = RoundedCornerShape(18.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFE5F5E4)
-                )
+                ),
+                border = BorderStroke(1.dp, Color(0xFFD3E7D1)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -81,7 +87,7 @@ fun HomeScreen(
                     ) {
                         Text(
                             text = "Good Morning,",
-                            fontSize = 14.sp,
+                            fontSize = 13.sp,
                             color = Color(0xFF3B5E4F)
                         )
 
